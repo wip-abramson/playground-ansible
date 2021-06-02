@@ -1,0 +1,46 @@
+# General system tasks
+- name: Update packages
+  apt:
+    update_cache: yes
+
+- name: Upgrade_ubuntu
+  apt:
+    upgrade=dist
+    force_apt_get=yes
+
+
+- name: Intall fav text editor nVim
+  apt:
+    name: nvim
+    state: present
+
+- name: Install git
+  apt:
+    name: git
+    state: present
+
+- name: Ensure group wheel exists
+  group: 
+    name: wheel
+    state: present
+
+- name: Ensure sudo group exists
+  group:
+    name: sudo
+    state: present
+
+- name: Ensure group docker exists
+  group:
+    name: docker
+    state: present
+
+- name: Create non-root sudo user
+  user:
+    name: "{{ username }}"
+    password: "{{ password }}"
+    shell: /bin/bash
+    groups:
+      - wheel
+      - sudo
+      - docker
+
