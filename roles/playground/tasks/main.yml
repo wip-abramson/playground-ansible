@@ -1,0 +1,27 @@
+- name: Install docker-compose
+  apt:
+    name: docker-compose
+    state: present
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+
+- name: Extract source-2-image tar from remote
+  unarchive:
+    src: https://github.com/openshift/source-to-image/releases/download/v1.3.1/source-to-image-v1.3.1-a5a77147-linux-amd64.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0777
+
+- name: Clone playground repo
+  ansible.builtin.git:
+    repo: 'https://github.com/wip-abramson/aries-jupyter-playground'
+    dest: /home/{{ username }}/PyDentity
