@@ -16,7 +16,7 @@
       become: yes
       vars:
         username: "{{ remote_vars.username }}"
-    - role: pydentity
+    - role: playground
       vars:
         username: "{{ remote_vars.username }}"
 
