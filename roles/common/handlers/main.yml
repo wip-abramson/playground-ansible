@@ -1,1 +1,5 @@
 # General system task handlers 
+name: restart sshd servive
+ansible.builtin.service:
+  name: sshd
+  state: restarted
