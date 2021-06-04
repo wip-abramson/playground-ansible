@@ -54,7 +54,16 @@
   ansible.builtin.shell: |
     mkdir -p /home/{{ username }}/.ssh
     cp /root/.ssh/authorized_keys /home/{{ username }}/.ssh/authorized_keys
-    chmod 0755 /home/{{ username }}/.ssh/authorized_keys
+    chmod 0644 /home/{{ username }}/.ssh/authorized_keys
+  become: yes
+
+- name: Own home directory
+  file:
+    path: "/home/{{ username }}"
+    state: directory
+    owner: "{{ username }}"
+    group: wheel
+    mode: 0750
   become: yes
 
 - name: Allow 'wheel' group users to use passwordless sudo

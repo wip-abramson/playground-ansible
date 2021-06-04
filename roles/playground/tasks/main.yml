@@ -24,4 +24,24 @@
 - name: Clone playground repo
   ansible.builtin.git:
     repo: 'https://github.com/wip-abramson/aries-jupyter-playground'
-    dest: /home/{{ username }}/PyDentity
+    dest: /home/{{ username }}/aries-jupyter-playground
+
+- name: Own directory
+  file:
+    path: "/home/{{ username }}/aries-jupyter-playground"
+    state: directory
+    owner: "{{ username }}"
+    group: wheel
+    mode: 0755
+    recurse: yes
+  become: yes
+
+- name: Prepare env vars
+  ansible.builtin.copy:
+    src: /home/{{ username }}/aries-jupyter-playground/playground/{{ item.name }}/{{ item.path }}
+    dest: /home/{{ username }}/aries-jupyter-playground/playground/{{ item.name }}/.env
+    owner: "{{ username }}"
+    group: wheel
+    remote_src: yes
+  with_items:
+    - '{{ env_paths }}'
