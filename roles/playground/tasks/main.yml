@@ -25,6 +25,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/wip-abramson/aries-jupyter-playground'
     dest: /home/{{ username }}/aries-jupyter-playground
+    update: no
 
 - name: Own directory
   file:
@@ -45,3 +46,9 @@
     remote_src: yes
   with_items:
     - '{{ env_paths }}'
+
+- name: Allow port range 8888:8890
+  community.general.ufw:
+    rule: allow
+    port: 8888:8890
+    proto: tcp
