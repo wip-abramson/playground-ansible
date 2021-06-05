@@ -1,3 +1,11 @@
 remote_vars:
-  username: pydentity
+  username: arthurdentity
   user_password: password
+
+env_paths:
+  - name: alice
+    path: alice-example.env
+  - name: bob
+    path: bob-example.env
+  - name: actor
+    path: dummy.env

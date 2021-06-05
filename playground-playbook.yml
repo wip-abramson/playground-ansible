@@ -1,8 +1,8 @@
 ---
 # Usage:
-# with user/password: ansible-palybook playground-playbook.yml -i hosts --extra-vars "ansible_user=root ansible_password='mypassword'" -e @vars/host_vars.yml -v
+# with user/password: ansible-playbook playground-playbook.yml -i hosts --extra-vars "ansible_user=root ansible_password='mypassword'" -e @vars/host_vars.yml -v
 # with ssh-keyfile: ansible-playbook playground-playbook.yml -i hosts --extra-vars "ansible_user=sshuser" -e @vars/host_vars.yml --key-file ~/.ssh/id_rsa_private_key
-- hosts: eu-west-linode
+- hosts: eu_west_linode
   pre_tasks:
     - name: collect facts about system
       service_facts:
@@ -19,4 +19,5 @@
     - role: playground
       vars:
         username: "{{ remote_vars.username }}"
+      become: yes
 
