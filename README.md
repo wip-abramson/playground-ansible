@@ -43,7 +43,7 @@ cd aries-jupyter-playground
 
 Use vim to edit demo-participant environment file. Change:
 * ACAPY_LABEL to some label you want your agent to identify itself with
-* ACAPY_ENDPOINT to the remotemachines IP address
+* ACAPY_ENDPOINT to the remotemachines IP address and agent port. e.g. http://someipaddress:3020. Demo participant agent uses 3020
 
 ```bash
 vi playground/demo-participant/.env
