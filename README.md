@@ -1,6 +1,6 @@
 # playground-ansible
 
-Ansible playbook to provision playground for PyDentity
+Ansible playbook to provision playground for the [aries-juypter-playground](https://github.com/wip-abramson/aries-jupyter-playground). Currently configured for the Hyperledger Global Forum demo.
 
 ### Requirements
 
@@ -13,26 +13,73 @@ Instructions to run the playbooks are located in the top comment in the playbook
 
 Instructions are made for Ubuntu 20.04 LTS running on Linode.
 
-All you really need to do is change the IP address in the `hosts` file to the IP of your instance. Then take the ansible command from the top comment of the playbook, possibly adjusting the path to the keyfile you want to use and you are good to go. 
+All you really need to do is change the IP address in the `hosts` file to the IP of your instance. 
 
-You can start the notebooks by running:
+Then take the ansible command from the top comment of the playbook, possibly adjusting the path to the keyfile you want to use and you are good to go. 
+
+## SSH into Machine
+
+### Add key to ssh-agent
+
+```bash=
+eval `ssh-agent`
+```
+
+```bash=
+ssh-add /path/to/vm_ssh_key
+```
+
+```bash=
+ssh pydentity@remotemachine
+```
+
+## Configure Agent
+
+
+```bash
+cd aries-jupyter-playground
 
 ```
-ssh remoteuser@remotemachine 'aries-jupyter-playground/manage.sh start'
-```
-or if you want to go via a jumphost (e.g. the remote machine is behind a firewall/only accessible via certain machine)
-```
-ssh -J jumpuser@jumphost remoteuser@remotemachine 'aries-jupyter-playground/manage.sh start'
-```
-replace start with stop to halt the containers. Obviously, you'll have to replace remoteuser and remotehost with a username and IP address respectively that fit your needs.
 
-In order to get the urls run
+Use vim to edit demo-participant environment file. Change:
+* ACAPY_LABEL to some label you want your agent to identify itself with
+* ACAPY_ENDPOINT to the remotemachines IP address
+
+```bash
+vi playground/demo-participant/.env
 ```
-ssh remoteuser@remotemachine 'aries-jupyter-playground/scripts/get_URLS.sh'
+
+## Start Notebooks
+
+You can start the demo-participant agent by running:
+
+```
+./manage.sh production &'
+```
+
+
+Note: You can also use `./manage start` to spin up two agents and use ngrok. This is useful for testing an interaction flow you are developing. The ultimate aim is that you can interact with other HGF attendees running their own agent on their own machine.
+
+Replace production with `stop` to halt the containers and `down` to clear their state. You need to replace remotehost with the IP address for your machine.
+
+
+
+First exit the remote machine
+
+```bash
+exit
+```
+
+## Port Forwarding
+
+In order to get the notebook urls run
+```
+ssh pydentity@remotemachine 'aries-jupyter-playground/scripts/get_URLS.sh'
 ```
 
 Now we still need to establish port forwarding to the remote machine in order to access the remote notebooks. This can be done like so:
 
 ```
-ssh -N -f -L localhost:localport:localhost:remoteport remoteuser@remotemachineip
+ssh -N -f -L localhost:localport:remotehost:remoteport pydentity@remotemachineip
 ```
+

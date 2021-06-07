@@ -25,7 +25,9 @@
   ansible.builtin.git:
     repo: 'https://github.com/wip-abramson/aries-jupyter-playground'
     dest: /home/{{ username }}/aries-jupyter-playground
+    version: 'demo/hl-global-forum'
     update: no
+
 
 - name: Own directory
   file:
@@ -47,8 +49,20 @@
   with_items:
     - '{{ env_paths }}'
 
-- name: Allow port range 8888:8890
+- name: Allow notebook port 8888:8889
   community.general.ufw:
     rule: allow
-    port: 8888:8890
+    port: 8888:8889
+    proto: tcp
+
+- name: Allow Agent HTTP port 3020
+  community.general.ufw:
+    rule: allow
+    port: 3020
+    proto: tcp
+
+- name: Allow Agent HTTP port 4020
+  community.general.ufw:
+    rule: allow
+    port: 4020
     proto: tcp
