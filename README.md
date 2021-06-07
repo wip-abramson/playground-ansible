@@ -80,6 +80,6 @@ ssh pydentity@remotemachine 'aries-jupyter-playground/scripts/get_URLS.sh'
 Now we still need to establish port forwarding to the remote machine in order to access the remote notebooks. This can be done like so:
 
 ```
-ssh -N -f -L localhost:localport:remotehost:remoteport pydentity@remotemachineip
+    ssh -N -f -L localhost:localport:remotehost:remoteport pydentity@remotemachineip
 ```
 
